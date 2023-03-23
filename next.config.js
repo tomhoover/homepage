@@ -9,7 +9,7 @@ const nextConfig = {
     domains: ["cdn.jsdelivr.net"],
     unoptimized: true,
   },
-  i18n,
+  i18n
 };
 
 module.exports = nextConfig;

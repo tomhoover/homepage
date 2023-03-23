@@ -7,6 +7,9 @@ import { useTranslation } from "next-i18next";
 import { useEffect, useContext, useState } from "react";
 import { BiError } from "react-icons/bi";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import i18next from "i18next";
+import i18nextOptions from "../../next-i18next.config";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 import ServicesGroup from "components/services/group";
 import BookmarksGroup from "components/bookmarks/group";
@@ -178,9 +181,12 @@ function Home({ initialSettings }) {
 
   const servicesAndBookmarks = [...services.map(sg => sg.services).flat(), ...bookmarks.map(bg => bg.bookmarks).flat()]
 
+  i18next.use(LanguageDetector).init(i18nextOptions);
+
   useEffect(() => {
-    if (settings.language) {
-      i18n.changeLanguage(settings.language);
+
+    if (settings.language || i18nextOptions.i18n.defaultLocale.indexOf(i18next.language) !== 0) {
+      i18n.changeLanguage(settings.language || i18next.language);
     }
 
     if (settings.theme && theme !== settings.theme) {
